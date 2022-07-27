@@ -29,9 +29,9 @@ namespace Process.NET.Utilities
         {
             Dictionary<int,int> indexes = new Dictionary<int,int>();
             var patternData = Data;
-            var patternDataLength = patternData.Length;
+            var patternDataLength = patternData.Length - 1;
 
-            for (var offset = 0; offset < patternDataLength; offset++)
+            for (var offset = 0; offset < patternDataLength - pattern.GetBytes().Count; offset++)
             {
                 if (
                     pattern.GetMask()
