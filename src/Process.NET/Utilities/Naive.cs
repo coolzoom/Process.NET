@@ -1,5 +1,6 @@
 ﻿using Process.NET.Modules;
 using Process.NET.Patterns;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Process.NET.Utilities
@@ -22,6 +23,25 @@ namespace Process.NET.Utilities
                 return offset;
             }
             return -1;
+        }
+
+        public static Dictionary<int,int> GetIndexesOf(IMemoryPattern pattern, byte[] Data, IProcessModule module)
+        {
+            Dictionary<int,int> indexes = new Dictionary<int,int>();
+            var patternData = Data;
+            var patternDataLength = patternData.Length;
+
+            for (var offset = 0; offset < patternDataLength; offset++)
+            {
+                if (
+                    pattern.GetMask()
+                        .Where((m, b) => m == 'x' && pattern.GetBytes()[b] != patternData[b + offset])
+                        .Any())
+                    continue;
+
+                indexes.Add(offset, offset);
+            }
+            return indexes;
         }
     }
 }

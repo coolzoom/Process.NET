@@ -1,4 +1,6 @@
-﻿namespace Process.NET.Utilities
+﻿using System.Collections.Generic;
+
+namespace Process.NET.Utilities
 {
     //Original C++ implementation by DarthTon. Ported to C# by gir489.
     public class BoyerMooreHorspool
@@ -48,6 +50,34 @@
                 offset += badShift[(int)buffer[offset + last]];
             }
             return -1;
+        }
+
+        public static Dictionary<int,int> IndexesOf(byte[] buffer, byte[] pattern)
+        {
+            Dictionary<int, int> indexes = new Dictionary<int, int>();
+
+            if (pattern.Length > buffer.Length)
+            {
+                return indexes;
+            }
+            int[] badShift = BuildBadCharTable(pattern);
+            int offset = 0;
+            int position = 0;
+            int last = pattern.Length - 1;
+            int maxoffset = buffer.Length - pattern.Length;
+            while (offset <= maxoffset)
+            {
+                for (position = last; (pattern[position] == buffer[position + offset] || pattern[position] == WildCard); position--)
+                {
+                    if (position == 0)
+                    {
+                        indexes.Add(offset, offset);
+                        break;
+                    }
+                }
+                offset += badShift[(int)buffer[offset + last]];
+            }
+            return indexes;
         }
     }
 }

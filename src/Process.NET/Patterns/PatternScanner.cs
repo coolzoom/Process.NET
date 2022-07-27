@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Process.NET.Modules;
 using Process.NET.Utilities;
@@ -40,7 +41,17 @@ namespace Process.NET.Patterns
             throw new NotImplementedException("PatternScanner encountered an unknown MemoryPatternType: " + pattern.PatternType + ".");
         }
 
-        
+        public Dictionary<IntPtr, PatternScanResult> Finds(IMemoryPattern pattern)
+        {
+            switch (pattern.PatternType)
+            {
+                case MemoryPatternType.Function:
+                    return FindFunctionPatterns(pattern);
+                case MemoryPatternType.Data:
+                    return FindDataPatterns(pattern);
+            }
+            throw new NotImplementedException("PatternScanner encountered an unknown MemoryPatternType: " + pattern.PatternType + ".");
+        }
 
         private int GetOffset(IMemoryPattern pattern)
         {
@@ -50,6 +61,18 @@ namespace Process.NET.Patterns
                     return Utilities.BoyerMooreHorspool.IndexOf(Data, pattern.GetBytes().ToArray());
                 case PatternScannerAlgorithm.Naive:
                     return Utilities.Naive.GetIndexOf(pattern, Data, _module);
+            }
+            throw new NotImplementedException("GetOffset encountered an unknown PatternScannerAlgorithm: " + pattern.Algorithm + ".");
+        }
+
+        private Dictionary<int,int> GetOffsets(IMemoryPattern pattern)
+        {
+            switch (pattern.Algorithm)
+            {
+                case PatternScannerAlgorithm.BoyerMooreHorspool:
+                    return Utilities.BoyerMooreHorspool.IndexesOf(Data, pattern.GetBytes().ToArray());
+                case PatternScannerAlgorithm.Naive:
+                    return Utilities.Naive.GetIndexesOf(pattern, Data, _module);
             }
             throw new NotImplementedException("GetOffset encountered an unknown PatternScannerAlgorithm: " + pattern.Algorithm + ".");
         }
@@ -70,6 +93,25 @@ namespace Process.NET.Patterns
             return EmptyPatternScanResult;
         }
 
+        private Dictionary<IntPtr, PatternScanResult> FindFunctionPatterns(IMemoryPattern pattern)
+        {
+            Dictionary<IntPtr, PatternScanResult> results = new Dictionary<IntPtr, PatternScanResult>();
+
+            var offsets = GetOffsets(pattern);
+            foreach (var offset in offsets)
+            {
+                var result = new PatternScanResult();
+                // If this area is reached, the pattern has been found.
+                result.Found = true;
+                result.BaseAddress = _module.BaseAddress + offset.Value + _offsetFromBaseAddress;
+                result.ReadAddress = _module.BaseAddress + offset.Value + _offsetFromBaseAddress;
+                result.Offset = offset.Value + _offsetFromBaseAddress;
+                results.Add(result.ReadAddress, result);
+            }
+            return results;
+
+        }
+
         private PatternScanResult FindDataPattern(IMemoryPattern pattern)
         {
             var result = new PatternScanResult();
@@ -86,6 +128,25 @@ namespace Process.NET.Patterns
             }
             // If this is reached, the pattern was not found.
             return EmptyPatternScanResult;
+        }
+
+        private Dictionary<IntPtr, PatternScanResult> FindDataPatterns(IMemoryPattern pattern)
+        {
+            Dictionary<IntPtr, PatternScanResult> results = new Dictionary<IntPtr, PatternScanResult>();
+
+            var offsets = GetOffsets(pattern);
+
+            foreach (var offset in offsets)
+            {
+                var result = new PatternScanResult();
+                // If this area is reached, the pattern has been found.
+                result.Found = true;
+                result.ReadAddress = _module.Read<IntPtr>(offset.Value + pattern.Offset);
+                result.BaseAddress = new IntPtr(result.ReadAddress.ToInt64() - _module.BaseAddress.ToInt64());
+                result.Offset = offset.Value;
+                results.Add(result.ReadAddress, result) ;
+            }
+            return results;
         }
     }
 }
