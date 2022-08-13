@@ -1,10 +1,6 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Process.NET.Assembly.AssemblyFactory
-// Assembly: Process.NET, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 9637A61E-08D4-4715-82E9-FCE8163D082E
-// Assembly location: F:\WOWServer\Source\WowClassicGrindBot\BlazorServer\bin\x64\Debug\net6.0\Process.NET.dll
-
-using Microsoft.CSharp.RuntimeBinder;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Process.NET.Assembly.Assemblers;
 using Process.NET.Assembly.CallingConventions;
 using Process.NET.Marshaling;
@@ -12,280 +8,494 @@ using Process.NET.Memory;
 using Process.NET.Native.Types;
 using Process.NET.Threads;
 using Process.NET.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace Process.NET.Assembly
 {
-  public class AssemblyFactory : IAssemblyFactory, IDisposable
-  {
-    public AssemblyFactory(IProcess process, IAssembler assembler)
+    public class AssemblyFactory : IAssemblyFactory
     {
-      this.Process = process;
-      this.Assembler = assembler;
-    }
-
-    public IAssembler Assembler { get; set; }
-
-    public IProcess Process { get; }
-
-    public AssemblyTransaction BeginTransaction(IntPtr address, bool autoExecute = true) => new AssemblyTransaction((IAssemblyFactory) this, address, autoExecute);
-
-    public AssemblyTransaction BeginTransaction(bool autoExecute = true) => new AssemblyTransaction((IAssemblyFactory) this, autoExecute);
-
-    public void Dispose()
-    {
-    }
-
-    public T Execute<T>(IntPtr address) => this.Process.ThreadFactory.CreateAndJoin(address).GetExitCode<T>();
-
-    public IntPtr Execute(IntPtr address) => this.Execute<IntPtr>(address);
-
-    public T Execute<T>(IntPtr address, object parameter)
-    {
-      // ISSUE: reference to a compiler-generated field
-      if (AssemblyFactory.\u003C\u003Eo__13<T>.\u003C\u003Ep__1 == null)
-      {
-        // ISSUE: reference to a compiler-generated field
-        AssemblyFactory.\u003C\u003Eo__13<T>.\u003C\u003Ep__1 = CallSite<Func<CallSite, object, IRemoteThread>>.Create(Binder.Convert(CSharpBinderFlags.None, typeof (IRemoteThread), typeof (AssemblyFactory)));
-      }
-      // ISSUE: reference to a compiler-generated field
-      Func<CallSite, object, IRemoteThread> target = AssemblyFactory.\u003C\u003Eo__13<T>.\u003C\u003Ep__1.Target;
-      // ISSUE: reference to a compiler-generated field
-      CallSite<Func<CallSite, object, IRemoteThread>> p1 = AssemblyFactory.\u003C\u003Eo__13<T>.\u003C\u003Ep__1;
-      // ISSUE: reference to a compiler-generated field
-      if (AssemblyFactory.\u003C\u003Eo__13<T>.\u003C\u003Ep__0 == null)
-      {
-        // ISSUE: reference to a compiler-generated field
-        AssemblyFactory.\u003C\u003Eo__13<T>.\u003C\u003Ep__0 = CallSite<Func<CallSite, IThreadFactory, IntPtr, object, object>>.Create(Binder.InvokeMember(CSharpBinderFlags.None, "CreateAndJoin", (IEnumerable<Type>) null, typeof (AssemblyFactory), (IEnumerable<CSharpArgumentInfo>) new CSharpArgumentInfo[3]
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AssemblyFactory" /> class.
+        /// </summary>
+        /// <param name="process">The process.</param>
+        /// <param name="assembler">The assembler.</param>
+        public AssemblyFactory(IProcess process, IAssembler assembler)
         {
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, (string) null),
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, (string) null),
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, (string) null)
-        }));
-      }
-      // ISSUE: reference to a compiler-generated field
-      // ISSUE: reference to a compiler-generated field
-      object obj = AssemblyFactory.\u003C\u003Eo__13<T>.\u003C\u003Ep__0.Target((CallSite) AssemblyFactory.\u003C\u003Eo__13<T>.\u003C\u003Ep__0, this.Process.ThreadFactory, address, parameter);
-      return target((CallSite) p1, obj).GetExitCode<T>();
-    }
-
-    public IntPtr Execute(IntPtr address, object parameter)
-    {
-      // ISSUE: reference to a compiler-generated field
-      if (AssemblyFactory.\u003C\u003Eo__14.\u003C\u003Ep__1 == null)
-      {
-        // ISSUE: reference to a compiler-generated field
-        AssemblyFactory.\u003C\u003Eo__14.\u003C\u003Ep__1 = CallSite<Func<CallSite, object, IntPtr>>.Create(Binder.Convert(CSharpBinderFlags.None, typeof (IntPtr), typeof (AssemblyFactory)));
-      }
-      // ISSUE: reference to a compiler-generated field
-      Func<CallSite, object, IntPtr> target = AssemblyFactory.\u003C\u003Eo__14.\u003C\u003Ep__1.Target;
-      // ISSUE: reference to a compiler-generated field
-      CallSite<Func<CallSite, object, IntPtr>> p1 = AssemblyFactory.\u003C\u003Eo__14.\u003C\u003Ep__1;
-      // ISSUE: reference to a compiler-generated field
-      if (AssemblyFactory.\u003C\u003Eo__14.\u003C\u003Ep__0 == null)
-      {
-        // ISSUE: reference to a compiler-generated field
-        AssemblyFactory.\u003C\u003Eo__14.\u003C\u003Ep__0 = CallSite<Func<CallSite, AssemblyFactory, IntPtr, object, object>>.Create(Binder.InvokeMember(CSharpBinderFlags.InvokeSimpleName, nameof (Execute), (IEnumerable<Type>) new Type[1]
-        {
-          typeof (IntPtr)
-        }, typeof (AssemblyFactory), (IEnumerable<CSharpArgumentInfo>) new CSharpArgumentInfo[3]
-        {
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, (string) null),
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, (string) null),
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, (string) null)
-        }));
-      }
-      // ISSUE: reference to a compiler-generated field
-      // ISSUE: reference to a compiler-generated field
-      object obj = AssemblyFactory.\u003C\u003Eo__14.\u003C\u003Ep__0.Target((CallSite) AssemblyFactory.\u003C\u003Eo__14.\u003C\u003Ep__0, this, address, parameter);
-      return target((CallSite) p1, obj);
-    }
-
-    public T Execute<T>(
-      IntPtr address,
-      Process.NET.Native.Types.CallingConventions callingConvention,
-      params object[] parameters)
-    {
-      IMarshalledValue[] array = ((IEnumerable<object>) parameters).Select<object, object>((Func<object, object>) (p =>
-      {
-        // ISSUE: reference to a compiler-generated field
-        if (AssemblyFactory.\u003C\u003Eo__15<T>.\u003C\u003Ep__0 == null)
-        {
-          // ISSUE: reference to a compiler-generated field
-          AssemblyFactory.\u003C\u003Eo__15<T>.\u003C\u003Ep__0 = CallSite<Func<CallSite, Type, IProcess, object, object>>.Create(Binder.InvokeMember(CSharpBinderFlags.None, "Marshal", (IEnumerable<Type>) null, typeof (AssemblyFactory), (IEnumerable<CSharpArgumentInfo>) new CSharpArgumentInfo[3]
-          {
-            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType | CSharpArgumentInfoFlags.IsStaticType, (string) null),
-            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, (string) null),
-            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, (string) null)
-          }));
+            Process = process;
+            Assembler = assembler;
         }
-        // ISSUE: reference to a compiler-generated field
-        // ISSUE: reference to a compiler-generated field
-        return AssemblyFactory.\u003C\u003Eo__15<T>.\u003C\u003Ep__0.Target((CallSite) AssemblyFactory.\u003C\u003Eo__15<T>.\u003C\u003Ep__0, typeof (MarshalValue), this.Process, p);
-      })).Cast<IMarshalledValue>().ToArray<IMarshalledValue>();
-      AssemblyTransaction assemblyTransaction;
-      using (assemblyTransaction = this.BeginTransaction(true))
-      {
-        ICallingConvention callingConvention1 = CallingConventionSelector.Get(callingConvention);
-        assemblyTransaction.AddLine(callingConvention1.FormatParameters(((IEnumerable<IMarshalledValue>) array).Select<IMarshalledValue, IntPtr>((Func<IMarshalledValue, IntPtr>) (p => p.Reference)).ToArray<IntPtr>()), Array.Empty<object>());
-        assemblyTransaction.AddLine(callingConvention1.FormatCalling(address), Array.Empty<object>());
-        if (callingConvention1.Cleanup == CleanupTypes.Caller)
-          assemblyTransaction.AddLine(callingConvention1.FormatCleaning(array.Length), Array.Empty<object>());
-        assemblyTransaction.AddLine("retn", Array.Empty<object>());
-      }
-      foreach (IDisposable disposable in array)
-        disposable.Dispose();
-      return assemblyTransaction.GetExitCode<T>();
-    }
 
-    public IntPtr Execute(
-      IntPtr address,
-      Process.NET.Native.Types.CallingConventions callingConvention,
-      params object[] parameters)
-    {
-      return this.Execute<IntPtr>(address, callingConvention, parameters);
-    }
+        /// <summary>
+        ///     Gets or sets the assembler.
+        /// </summary>
+        /// <value>
+        ///     The assembler.
+        /// </value>
+        public IAssembler Assembler { get; set; }
 
-    public Task<T> ExecuteAsync<T>(IntPtr address) => Task.Run<T>((Func<T>) (() => this.Execute<T>(address)));
+        /// <summary>
+        ///     Gets the process.
+        /// </summary>
+        /// <value>
+        ///     The process.
+        /// </value>
+        public IProcess Process { get; }
 
-    public Task<IntPtr> ExecuteAsync(IntPtr address) => this.ExecuteAsync<IntPtr>(address);
-
-    public Task<T> ExecuteAsync<T>(IntPtr address, object parameter) => Task.Run<T>((Func<Task<T>>) (() =>
-    {
-      // ISSUE: reference to a compiler-generated field
-      if (AssemblyFactory.\u003C\u003Eo__19<T>.\u003C\u003Ep__1 == null)
-      {
-        // ISSUE: reference to a compiler-generated field
-        AssemblyFactory.\u003C\u003Eo__19<T>.\u003C\u003Ep__1 = CallSite<Func<CallSite, object, Task<T>>>.Create(Binder.Convert(CSharpBinderFlags.ConvertExplicit, typeof (Task<T>), typeof (AssemblyFactory)));
-      }
-      // ISSUE: reference to a compiler-generated field
-      Func<CallSite, object, Task<T>> target = AssemblyFactory.\u003C\u003Eo__19<T>.\u003C\u003Ep__1.Target;
-      // ISSUE: reference to a compiler-generated field
-      CallSite<Func<CallSite, object, Task<T>>> p1 = AssemblyFactory.\u003C\u003Eo__19<T>.\u003C\u003Ep__1;
-      // ISSUE: reference to a compiler-generated field
-      if (AssemblyFactory.\u003C\u003Eo__19<T>.\u003C\u003Ep__0 == null)
-      {
-        // ISSUE: reference to a compiler-generated field
-        AssemblyFactory.\u003C\u003Eo__19<T>.\u003C\u003Ep__0 = CallSite<Func<CallSite, AssemblyFactory, IntPtr, object, object>>.Create(Binder.InvokeMember(CSharpBinderFlags.InvokeSimpleName, "Execute", (IEnumerable<Type>) new Type[1]
+        /// <summary>
+        ///     Begins a new transaction to inject and execute assembly code into the process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        /// <param name="autoExecute">Indicates whether the assembly code is executed once the object is disposed.</param>
+        /// <returns>The return value is a new transaction.</returns>
+        public AssemblyTransaction BeginTransaction(IntPtr address, bool autoExecute = true)
         {
-          typeof (T)
-        }, typeof (AssemblyFactory), (IEnumerable<CSharpArgumentInfo>) new CSharpArgumentInfo[3]
+            return new AssemblyTransaction(this, address, autoExecute);
+        }
+
+        /// <summary>
+        ///     Begins a new transaction to inject and execute assembly code into the process.
+        /// </summary>
+        /// <param name="autoExecute">Indicates whether the assembly code is executed once the object is disposed.</param>
+        /// <returns>The return value is a new transaction.</returns>
+        public AssemblyTransaction BeginTransaction(bool autoExecute = true)
         {
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, (string) null),
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, (string) null),
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, (string) null)
-        }));
-      }
-      // ISSUE: reference to a compiler-generated field
-      // ISSUE: reference to a compiler-generated field
-      object obj = AssemblyFactory.\u003C\u003Eo__19<T>.\u003C\u003Ep__0.Target((CallSite) AssemblyFactory.\u003C\u003Eo__19<T>.\u003C\u003Ep__0, this, address, parameter);
-      return target((CallSite) p1, obj);
-    }));
+            return new AssemblyTransaction(this, autoExecute);
+        }
 
-    public Task<IntPtr> ExecuteAsync(IntPtr address, object parameter)
-    {
-      // ISSUE: reference to a compiler-generated field
-      if (AssemblyFactory.\u003C\u003Eo__20.\u003C\u003Ep__1 == null)
-      {
-        // ISSUE: reference to a compiler-generated field
-        AssemblyFactory.\u003C\u003Eo__20.\u003C\u003Ep__1 = CallSite<Func<CallSite, object, Task<IntPtr>>>.Create(Binder.Convert(CSharpBinderFlags.None, typeof (Task<IntPtr>), typeof (AssemblyFactory)));
-      }
-      // ISSUE: reference to a compiler-generated field
-      Func<CallSite, object, Task<IntPtr>> target = AssemblyFactory.\u003C\u003Eo__20.\u003C\u003Ep__1.Target;
-      // ISSUE: reference to a compiler-generated field
-      CallSite<Func<CallSite, object, Task<IntPtr>>> p1 = AssemblyFactory.\u003C\u003Eo__20.\u003C\u003Ep__1;
-      // ISSUE: reference to a compiler-generated field
-      if (AssemblyFactory.\u003C\u003Eo__20.\u003C\u003Ep__0 == null)
-      {
-        // ISSUE: reference to a compiler-generated field
-        AssemblyFactory.\u003C\u003Eo__20.\u003C\u003Ep__0 = CallSite<Func<CallSite, AssemblyFactory, IntPtr, object, object>>.Create(Binder.InvokeMember(CSharpBinderFlags.InvokeSimpleName, nameof (ExecuteAsync), (IEnumerable<Type>) new Type[1]
+        /// <summary>
+        ///     Releases all resources used by the <see cref="AssemblyFactory" /> object.
+        /// </summary>
+        public void Dispose()
         {
-          typeof (IntPtr)
-        }, typeof (AssemblyFactory), (IEnumerable<CSharpArgumentInfo>) new CSharpArgumentInfo[3]
+            // Nothing to dispose... yet
+        }
+
+        /// <summary>
+        ///     Executes the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public T Execute<T>(IntPtr address)
         {
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, (string) null),
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, (string) null),
-          CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, (string) null)
-        }));
-      }
-      // ISSUE: reference to a compiler-generated field
-      // ISSUE: reference to a compiler-generated field
-      object obj = AssemblyFactory.\u003C\u003Eo__20.\u003C\u003Ep__0.Target((CallSite) AssemblyFactory.\u003C\u003Eo__20.\u003C\u003Ep__0, this, address, parameter);
-      return target((CallSite) p1, obj);
+            // Execute and join the code in a new thread
+            var thread = Process.ThreadFactory.CreateAndJoin(address);
+            // Return the exit code of the thread
+            return thread.GetExitCode<T>();
+        }
+
+        /// <summary>
+        ///     Executes the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public IntPtr Execute(IntPtr address)
+        {
+            return Execute<IntPtr>(address);
+        }
+
+        /// <summary>
+        ///     Executes the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <param name="parameter">The parameter used to execute the assembly code.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public T Execute<T>(IntPtr address, dynamic parameter)
+        {
+            // Execute and join the code in a new thread
+            IRemoteThread thread = Process.ThreadFactory.CreateAndJoin(address, parameter);
+            // Return the exit code of the thread
+            return thread.GetExitCode<T>();
+        }
+
+        /// <summary>
+        ///     Executes the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <param name="parameter">The parameter used to execute the assembly code.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public IntPtr Execute(IntPtr address, dynamic parameter)
+        {
+            return Execute<IntPtr>(address, parameter);
+        }
+
+        /// <summary>
+        ///     Executes the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <param name="callingConvention">The calling convention used to execute the assembly code with the parameters.</param>
+        /// <param name="parameters">An array of parameters used to execute the assembly code.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public T Execute<T>(IntPtr address, Native.Types.CallingConventions callingConvention,
+            params dynamic[] parameters)
+        {
+            // Marshal the parameters
+            var marshalledParameters =
+                parameters.Select(p => MarshalValue.Marshal(Process, p)).Cast<IMarshalledValue>().ToArray();
+            // Start a transaction
+            AssemblyTransaction t;
+            using (t = BeginTransaction())
+            {
+                // Get the object dedicated to create mnemonics for the given calling convention
+                var calling = CallingConventionSelector.Get(callingConvention);
+                // Push the parameters
+                t.AddLine(calling.FormatParameters(marshalledParameters.Select(p => p.Reference).ToArray()));
+                // Call the function
+                t.AddLine(calling.FormatCalling(address));
+                // Clean the parameters
+                if (calling.Cleanup == CleanupTypes.Caller)
+                    t.AddLine(calling.FormatCleaning(marshalledParameters.Length));
+                // Add the return mnemonic
+                t.AddLine("retn");
+            }
+
+            // Clean the marshalled parameters
+            foreach (var parameter in marshalledParameters)
+                parameter.Dispose();
+            // Return the exit code
+            return t.GetExitCode<T>();
+        }
+
+        /// <summary>
+        ///     Executes the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <param name="callingConvention">The calling convention used to execute the assembly code with the parameters.</param>
+        /// <param name="parameters">An array of parameters used to execute the assembly code.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public IntPtr Execute(IntPtr address, Native.Types.CallingConventions callingConvention,
+            params dynamic[] parameters)
+        {
+            return Execute<IntPtr>(address, callingConvention, parameters);
+        }
+
+        /// <summary>
+        ///     Executes asynchronously the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<T> ExecuteAsync<T>(IntPtr address)
+        {
+            return Task.Run(() => Execute<T>(address));
+        }
+
+        /// <summary>
+        ///     Executes asynchronously the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<IntPtr> ExecuteAsync(IntPtr address)
+        {
+            return ExecuteAsync<IntPtr>(address);
+        }
+
+        /// <summary>
+        ///     Executes asynchronously the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <param name="parameter">The parameter used to execute the assembly code.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<T> ExecuteAsync<T>(IntPtr address, dynamic parameter)
+        {
+            return Task.Run(() => (Task<T>) Execute<T>(address, parameter));
+        }
+
+        /// <summary>
+        ///     Executes asynchronously the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <param name="parameter">The parameter used to execute the assembly code.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<IntPtr> ExecuteAsync(IntPtr address, dynamic parameter)
+        {
+            return ExecuteAsync<IntPtr>(address, parameter);
+        }
+
+        /// <summary>
+        ///     Executes asynchronously the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <param name="callingConvention">The calling convention used to execute the assembly code with the parameters.</param>
+        /// <param name="parameters">An array of parameters used to execute the assembly code.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<T> ExecuteAsync<T>(IntPtr address, Native.Types.CallingConventions callingConvention,
+            params dynamic[] parameters)
+        {
+            return Task.Run(() => Execute<T>(address, callingConvention, parameters));
+        }
+
+        /// <summary>
+        ///     Executes asynchronously the assembly code located in the remote process at the specified address.
+        /// </summary>
+        /// <param name="address">The address where the assembly code is located.</param>
+        /// <param name="callingConvention">The calling convention used to execute the assembly code with the parameters.</param>
+        /// <param name="parameters">An array of parameters used to execute the assembly code.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<IntPtr> ExecuteAsync(IntPtr address, Native.Types.CallingConventions callingConvention,
+            params dynamic[] parameters)
+        {
+            return ExecuteAsync<IntPtr>(address, callingConvention, parameters);
+        }
+
+        /// <summary>
+        ///     Assembles mnemonics and injects the corresponding assembly code into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        public void Inject(string asm, IntPtr address)
+        {
+            Process.Memory.Write(address, Assembler.Assemble(asm, address));
+        }
+
+        /// <summary>
+        ///     Assembles mnemonics and injects the corresponding assembly code into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        public void Inject(string[] asm, IntPtr address)
+        {
+            Inject(string.Join("\n", asm), address);
+        }
+
+        /// <summary>
+        ///     Assembles mnemonics and injects the corresponding assembly code into the remote process.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <returns>The address where the assembly code is injected.</returns>
+        public IAllocatedMemory Inject(string asm)
+        {
+            // Assemble the assembly code
+            var code = Assembler.Assemble(asm);
+            // Allocate a chunk of memory to store the assembly code
+            var memory = Process.MemoryFactory.Allocate(Randomizer.GenerateString(), code.Length);
+            // Inject the code
+            Inject(asm, memory.BaseAddress);
+            // Return the memory allocated
+            return memory;
+        }
+
+        /// <summary>
+        ///     Assembles mnemonics and injects the corresponding assembly code into the remote process.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <returns>The address where the assembly code is injected.</returns>
+        public IAllocatedMemory Inject(string[] asm)
+        {
+            return Inject(string.Join("\n", asm));
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes the mnemonics into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public T InjectAndExecute<T>(string asm, IntPtr address)
+        {
+            // Inject the assembly code
+            Inject(asm, address);
+            // Execute the code
+            return Execute<T>(address);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes the mnemonics into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public IntPtr InjectAndExecute(string asm, IntPtr address)
+        {
+            return InjectAndExecute<IntPtr>(asm, address);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes the mnemonics into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public T InjectAndExecute<T>(string[] asm, IntPtr address)
+        {
+            return InjectAndExecute<T>(string.Join("\n", asm), address);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes the mnemonics into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public IntPtr InjectAndExecute(string[] asm, IntPtr address)
+        {
+            return InjectAndExecute<IntPtr>(asm, address);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes the mnemonics into the remote process.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public T InjectAndExecute<T>(string asm)
+        {
+            // Inject the assembly code
+            using (var memory = Inject(asm))
+                // Execute the code
+                return Execute<T>(memory.BaseAddress);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes the mnemonics into the remote process.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public IntPtr InjectAndExecute(string asm)
+        {
+            return InjectAndExecute<IntPtr>(asm);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes the mnemonics into the remote process.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public T InjectAndExecute<T>(string[] asm)
+        {
+            return InjectAndExecute<T>(string.Join("\n", asm));
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes the mnemonics into the remote process.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public IntPtr InjectAndExecute(string[] asm)
+        {
+            return InjectAndExecute<IntPtr>(asm);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes asynchronously the mnemonics into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<T> InjectAndExecuteAsync<T>(string asm, IntPtr address)
+        {
+            return Task.Run(() => InjectAndExecute<T>(asm, address));
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes asynchronously the mnemonics into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<IntPtr> InjectAndExecuteAsync(string asm, IntPtr address)
+        {
+            return InjectAndExecuteAsync<IntPtr>(asm, address);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes asynchronously the mnemonics into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<T> InjectAndExecuteAsync<T>(string[] asm, IntPtr address)
+        {
+            return Task.Run(() => InjectAndExecute<T>(asm, address));
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes asynchronously the mnemonics into the remote process at the specified address.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <param name="address">The address where the assembly code is injected.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<IntPtr> InjectAndExecuteAsync(string[] asm, IntPtr address)
+        {
+            return InjectAndExecuteAsync<IntPtr>(asm, address);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes asynchronously the mnemonics into the remote process.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<T> InjectAndExecuteAsync<T>(string asm)
+        {
+            return Task.Run(() => InjectAndExecute<T>(asm));
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes asynchronously the mnemonics into the remote process.
+        /// </summary>
+        /// <param name="asm">The mnemonics to inject.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<IntPtr> InjectAndExecuteAsync(string asm)
+        {
+            return InjectAndExecuteAsync<IntPtr>(asm);
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes asynchronously the mnemonics into the remote process.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<T> InjectAndExecuteAsync<T>(string[] asm)
+        {
+            return Task.Run(() => InjectAndExecute<T>(asm));
+        }
+
+        /// <summary>
+        ///     Assembles, injects and executes asynchronously the mnemonics into the remote process.
+        /// </summary>
+        /// <param name="asm">An array containing the mnemonics to inject.</param>
+        /// <returns>
+        ///     The return value is an asynchronous operation that return the exit code of the thread created to execute the
+        ///     assembly code.
+        /// </returns>
+        public Task<IntPtr> InjectAndExecuteAsync(string[] asm)
+        {
+            return InjectAndExecuteAsync<IntPtr>(asm);
+        }
     }
-
-    public Task<T> ExecuteAsync<T>(
-      IntPtr address,
-      Process.NET.Native.Types.CallingConventions callingConvention,
-      params object[] parameters)
-    {
-      return Task.Run<T>((Func<T>) (() => this.Execute<T>(address, callingConvention, parameters)));
-    }
-
-    public Task<IntPtr> ExecuteAsync(
-      IntPtr address,
-      Process.NET.Native.Types.CallingConventions callingConvention,
-      params object[] parameters)
-    {
-      return this.ExecuteAsync<IntPtr>(address, callingConvention, parameters);
-    }
-
-    public void Inject(string asm, IntPtr address) => this.Process.Memory.Write(address, this.Assembler.Assemble(asm, address));
-
-    public void Inject(string[] asm, IntPtr address) => this.Inject(string.Join("\n", asm), address);
-
-    public IAllocatedMemory Inject(string asm)
-    {
-      byte[] numArray = this.Assembler.Assemble(asm);
-      IAllocatedMemory allocatedMemory = this.Process.MemoryFactory.Allocate(Randomizer.GenerateString(), numArray.Length);
-      this.Inject(asm, allocatedMemory.BaseAddress);
-      return allocatedMemory;
-    }
-
-    public IAllocatedMemory Inject(string[] asm) => this.Inject(string.Join("\n", asm));
-
-    public T InjectAndExecute<T>(string asm, IntPtr address)
-    {
-      this.Inject(asm, address);
-      return this.Execute<T>(address);
-    }
-
-    public IntPtr InjectAndExecute(string asm, IntPtr address) => this.InjectAndExecute<IntPtr>(asm, address);
-
-    public T InjectAndExecute<T>(string[] asm, IntPtr address) => this.InjectAndExecute<T>(string.Join("\n", asm), address);
-
-    public IntPtr InjectAndExecute(string[] asm, IntPtr address) => this.InjectAndExecute<IntPtr>(asm, address);
-
-    public T InjectAndExecute<T>(string asm)
-    {
-      using (IAllocatedMemory allocatedMemory = this.Inject(asm))
-        return this.Execute<T>(allocatedMemory.BaseAddress);
-    }
-
-    public IntPtr InjectAndExecute(string asm) => this.InjectAndExecute<IntPtr>(asm);
-
-    public T InjectAndExecute<T>(string[] asm) => this.InjectAndExecute<T>(string.Join("\n", asm));
-
-    public IntPtr InjectAndExecute(string[] asm) => this.InjectAndExecute<IntPtr>(asm);
-
-    public Task<T> InjectAndExecuteAsync<T>(string asm, IntPtr address) => Task.Run<T>((Func<T>) (() => this.InjectAndExecute<T>(asm, address)));
-
-    public Task<IntPtr> InjectAndExecuteAsync(string asm, IntPtr address) => this.InjectAndExecuteAsync<IntPtr>(asm, address);
-
-    public Task<T> InjectAndExecuteAsync<T>(string[] asm, IntPtr address) => Task.Run<T>((Func<T>) (() => this.InjectAndExecute<T>(asm, address)));
-
-    public Task<IntPtr> InjectAndExecuteAsync(string[] asm, IntPtr address) => this.InjectAndExecuteAsync<IntPtr>(asm, address);
-
-    public Task<T> InjectAndExecuteAsync<T>(string asm) => Task.Run<T>((Func<T>) (() => this.InjectAndExecute<T>(asm)));
-
-    public Task<IntPtr> InjectAndExecuteAsync(string asm) => this.InjectAndExecuteAsync<IntPtr>(asm);
-
-    public Task<T> InjectAndExecuteAsync<T>(string[] asm) => Task.Run<T>((Func<T>) (() => this.InjectAndExecute<T>(asm)));
-
-    public Task<IntPtr> InjectAndExecuteAsync(string[] asm) => this.InjectAndExecuteAsync<IntPtr>(asm);
-  }
 }

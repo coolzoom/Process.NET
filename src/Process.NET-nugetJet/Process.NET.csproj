@@ -105,9 +105,9 @@
     <Compile Include="Native\Types\SafeLoadLibrary.cs" />
     <Compile Include="Native\Types\SafeMemoryHandle.cs" />
     <Compile Include="Marshaling\IMarshalledValue.cs" />
-    <Compile Include="Marshaling\MarshalCache`1.cs" />
-    <Compile Include="Marshaling\MarshalledValue`1.cs" />
-    <Compile Include="Marshaling\MarshalType`1.cs" />
+    <Compile Include="Marshaling\MarshalCache.cs" />
+    <Compile Include="Marshaling\MarshalledValue.cs" />
+    <Compile Include="Marshaling\MarshalType.cs" />
     <Compile Include="Marshaling\MarshalValue.cs" />
     <Compile Include="Marshaling\IDisposableState.cs" />
     <Compile Include="Utilities\Randomizer.cs" />
@@ -196,10 +196,7 @@
     <Compile Include="Applied\Patches\Patch.cs" />
     <Compile Include="Applied\Patches\PatchManager.cs" />
     <Compile Include="Applied\Detours\Detour.cs" />
-    <Compile Include="Applied\Detours\Detour32.cs" />
-    <Compile Include="Applied\Detours\Detour64.cs" />
     <Compile Include="Applied\Detours\DetourManager.cs" />
-    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
